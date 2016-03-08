@@ -52,7 +52,7 @@ public class Pieza {
 		return tipo;
 	}
 	public int getValor(){
-		return valor+1;
+		return valor;
 	}
 	public void Peon(){
 		
