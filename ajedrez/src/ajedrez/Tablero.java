@@ -15,6 +15,7 @@ public class Tablero {
 		}
 		return false;
 	}
+	//para jorge
 	public Pieza getPieza(char Columna,byte fila){
 		for(int i=0;i<blancas.length;i++){
 			if(blancas[i]!=null){
