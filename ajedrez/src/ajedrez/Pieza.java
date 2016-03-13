@@ -211,6 +211,75 @@ public class Pieza {
 		movimientos.addAll(movimientosDerecha(p));
 	}
 	private void Caballo(Posicion p){
+		movimientos = new LinkedList<Movimiento>();
+		Posicion esi=p.getSuperiorIzquierda(),esd=p.getSuperiorDerecha(),eii=p.getInferiorIzquierda(),eid=p.getInferiorDerecha();
+		if(esi!=null){
+			Posicion p1=esi.getSuperior(),p2=esi.getIzquierda();
+			if(p1!=null){
+				Pieza x=tablero.getPieza(p1);
+				if(x==null||x.color!=color){
+					movimientos.add(new Movimiento(p, p1));
+				}
+			}
+			if(p2!=null){
+				Pieza x=tablero.getPieza(p2);
+				if(x==null||x.color!=color){
+					movimientos.add(new Movimiento(p, p2));
+				}
+			}
+		}
+		
+		
+		if(esd!=null){
+			Posicion p1=esd.getSuperior(),p2=esd.getDerecha();
+			if(p1!=null){
+				Pieza x=tablero.getPieza(p1);
+				if(x==null||x.color!=color){
+					movimientos.add(new Movimiento(p, p1));
+				}
+			}
+			if(p2!=null){
+				Pieza x=tablero.getPieza(p2);
+				if(x==null||x.color!=color){
+					movimientos.add(new Movimiento(p, p2));
+				}
+			}
+		}
+		
+		
+		if(eii!=null){
+			Posicion p1=eii.getInferior(),p2=eii.getIzquierda();
+			if(p1!=null){
+				Pieza x=tablero.getPieza(p1);
+				if(x==null||x.color!=color){
+					movimientos.add(new Movimiento(p, p1));
+				}
+			}
+			if(p2!=null){
+				Pieza x=tablero.getPieza(p2);
+				if(x==null||x.color!=color){
+					movimientos.add(new Movimiento(p, p2));
+				}
+			}
+		}
+		
+		
+		if(eid!=null){
+			Posicion p1=eid.getInferior(),p2=eid.getDerecha();
+			if(p1!=null){
+				Pieza x=tablero.getPieza(p1);
+				if(x==null||x.color!=color){
+					movimientos.add(new Movimiento(p, p1));
+				}
+			}
+			if(p2!=null){
+				Pieza x=tablero.getPieza(p2);
+				if(x==null||x.color!=color){
+					movimientos.add(new Movimiento(p, p2));
+				}
+			}
+		}
+		
 		
 	}
 	private LinkedList<Movimiento> movimientosDSIzquierda(Posicion p){
