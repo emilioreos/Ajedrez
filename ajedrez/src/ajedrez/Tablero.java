@@ -1,6 +1,12 @@
 package ajedrez;
 
-public class Tablero {
+import java.awt.Graphics;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+public class Tablero extends JPanel {
+	private static final long serialVersionUID = 1L;
 	public Posicion[][] posiciones=new Posicion[8][8];
 	
 	public Tablero(){
@@ -36,25 +42,7 @@ public class Tablero {
 	
 	public boolean hayPieza(Posicion p){
 		if(p!= null){
-		byte col=-1;
-			switch(p.columna){
-				case 'A': col=0;
-					break;
-				case 'B': col=1;
-					break;
-				case 'C': col=2;
-					break;
-				case 'D': col=3;
-					break;
-				case 'E': col=4;
-					break;
-				case 'F': col=5;
-					break;
-				case 'G': col=6;
-					break;
-				case 'H': col=7;
-					break;
-			}
+			byte col=toColumna(p.columna);
 			if(col<0){
 				return false;
 			}
@@ -68,86 +56,66 @@ public class Tablero {
 	}
 	public Pieza getPieza(Posicion p){
 		if(p!= null){
-			byte col=-1;
-				switch(p.columna){
-					case 'A': col=0;
-						break;
-					case 'B': col=1;
-						break;
-					case 'C': col=2;
-						break;
-					case 'D': col=3;
-						break;
-					case 'E': col=4;
-						break;
-					case 'F': col=5;
-						break;
-					case 'G': col=6;
-						break;
-					case 'H': col=7;
-						break;
-				}
-				if(col<0){
-					return null;
-				}
-				Pieza ps=posiciones[p.fila-1][col].pieza;
-				return ps;
+			byte col=toColumna(p.columna);
+			if(col<0){
+				return null;
+			}
+			Pieza ps=posiciones[p.fila-1][col].pieza;
+			return ps;
 		}
 		return null;
 	}
 	public void mover(Movimiento m){
 		if(m!= null){
-			byte col=-1,col1=-1;
-				switch(m.origen.columna){
-					case 'A': col=0;
-						break;
-					case 'B': col=1;
-						break;
-					case 'C': col=2;
-						break;
-					case 'D': col=3;
-						break;
-					case 'E': col=4;
-						break;
-					case 'F': col=5;
-						break;
-					case 'G': col=6;
-						break;
-					case 'H': col=7;
-						break;
-				}
-				switch(m.destino.columna){
-					case 'A': col1=0;
-						break;
-					case 'B': col1=1;
-						break;
-					case 'C': col1=2;
-						break;
-					case 'D': col1=3;
-						break;
-					case 'E': col1=4;
-						break;
-					case 'F': col1=5;
-						break;
-					case 'G': col1=6;
-						break;
-					case 'H': col1=7;
-						break;
-				}
-				if(col<0||col1<0){
-					return;
-				}
-				Posicion po=posiciones[m.origen.fila-1][col];
-				posiciones[m.destino.fila-1][col1].pieza=po.pieza;
-				po.pieza=null;
+			byte col=toColumna(m.origen.columna),col1=toColumna(m.destino.columna);
+			if(col<0||col1<0){
+				return;
+			}
+			Posicion po=posiciones[m.origen.fila-1][col];
+			posiciones[m.destino.fila-1][col1].pieza=po.pieza;
+			po.pieza=null;
 		}
+	}
+	private byte toColumna(char c){
+		byte col=-1;
+		switch(c){
+		case 'A': col=0;
+			break;
+		case 'B': col=1;
+			break;
+		case 'C': col=2;
+			break;
+		case 'D': col=3;
+			break;
+		case 'E': col=4;
+			break;
+		case 'F': col=5;
+			break;
+		case 'G': col=6;
+			break;
+		case 'H': col=7;
+			break;
+	}
+		return col;
+	}
+	public void paint(Graphics g){
+		g.setColor(java.awt.Color.red);
+		g.drawString("Modifica \"paint(Graphics g)\" para pintar el tablero", 0, 10);
 	}
 	//main para prueva de componentes
 	public static void main(String[] args){
 		Tablero t=new Tablero();
-		t.mover(new Movimiento(new Posicion('B', (byte)7), new Posicion('B',(byte)3)));
-		Pieza p=t.getPieza(new Posicion('C',(byte)2));
-		p.calcularMovimientos(new Posicion('C',(byte)2));
+		t.mover(new Movimiento(new Posicion('H', (byte)7), new Posicion('H',(byte)3)));
+		t.mover(new Movimiento(new Posicion('F', (byte)7), new Posicion('F',(byte)3)));
+		Pieza p=t.getPieza(new Posicion('G',(byte)2));
+		p.calcularMovimientos(new Posicion('G',(byte)2));
 		System.out.println(p.getMovimientos());
+		//creacion de la parte grafica
+		JFrame jf= new JFrame();
+		jf.setContentPane(t);
+		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		jf.setSize(400, 400);
+		jf.setLocationRelativeTo(null);
+		jf.setVisible(true);
 	}
 }
