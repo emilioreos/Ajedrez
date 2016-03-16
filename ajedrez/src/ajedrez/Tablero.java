@@ -192,11 +192,12 @@ public class Tablero extends JPanel {
 		//System.out.println(t.getMovimientos(Color.BLANCO));
 		Nodo raiz =new Nodo(Color.BLANCO);
 		raiz.tablero=t;
-		Contenedor con=Nodo.crearArbol(raiz, Integer.MIN_VALUE,Integer.MAX_VALUE , Color.BLANCO, (byte)1);
+		Contenedor con=Nodo.crearArbol(raiz, Integer.MIN_VALUE,Integer.MAX_VALUE , Color.BLANCO, (byte)5);
+		System.out.println(con.tablero.tablero.toString());
 		//System.out.println(raiz.hijos);
 		//System.out.println(con.tablero.tablero.toString());
 		//System.out.println(con.tablero.hijos.get(0).tablero.toString());
-		imprimir(raiz);
+		//imprimir(raiz);
 		//creacion de la parte grafica
 		JFrame jf= new JFrame();
 		jf.setContentPane(t);

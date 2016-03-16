@@ -48,6 +48,7 @@ public class Nodo {
 					n.addHijo(nodos[i]);
 					if(z.valor>alfa){
 						z.tablero=nodos[i];
+						x.tablero=z.tablero;
 						alfa=z.valor;
 					}
 					if(alfa>=beta){
@@ -55,8 +56,9 @@ public class Nodo {
 						return z;
 					}
 				}
-				x.tablero=nodos[0];
 				x.valor=alfa;
+				System.out.println("Alfa "+alfa);
+				System.out.println("Beta "+beta);
 				return x;
 			}else{
 				x.valor=beta;
@@ -68,6 +70,7 @@ public class Nodo {
 					n.addHijo(nodos[i]);
 					if(z.valor<beta){
 						z.tablero=nodos[i];
+						x.tablero=z.tablero;
 						beta=z.valor;
 					}
 					if(alfa>=beta){
@@ -75,8 +78,9 @@ public class Nodo {
 						return z;
 					}
 				}
-				x.tablero=nodos[0];
 				x.valor=beta;
+				System.out.println("Alfa "+alfa);
+				System.out.println("Beta "+beta);
 				return x;
 			}
 		}
