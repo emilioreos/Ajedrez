@@ -97,7 +97,7 @@ public class Pieza {
 			if(DS!=null&&DS.color==Color.NEGRO){
 				movimientos.add(new Movimiento(p, ds));
 			}
-			if(AD==null){
+			if(AD==null&&ad!=null){
 				movimientos.add(new Movimiento(p, ad));
 				if(p.fila==2){
 					ad=ad.getSuperior();
@@ -123,7 +123,7 @@ public class Pieza {
 			if(DS!=null&&DS.color==Color.BLANCO){
 				movimientos.add(new Movimiento(p, ds));
 			}
-			if(AD==null){
+			if(AD==null&&ad!=null){
 				movimientos.add(new Movimiento(p, ad));
 				if(p.fila==7){
 					ad=ad.getInferior();

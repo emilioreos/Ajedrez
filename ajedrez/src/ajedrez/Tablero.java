@@ -1,13 +1,9 @@
 package ajedrez;
 
-import java.awt.Graphics;
 import java.util.LinkedList;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
-public class Tablero extends JPanel {
-	private static final long serialVersionUID = 1L;
+public class Tablero{
 	public Posicion[][] posiciones=new Posicion[8][8];
 	public Tablero(Object o){
 		
@@ -143,11 +139,6 @@ public class Tablero extends JPanel {
 		
 		return raiz;
 	}
-	@Override
-	public void paint(Graphics g){
-		g.setColor(java.awt.Color.red);
-		g.drawString("Modifica \"paint(Graphics g)\" para pintar el tablero", 0, 10);
-	}
 	public Object clone(){
 		Tablero t=new Tablero(null);
 		for(int i=0;i<8;i++){
@@ -170,6 +161,7 @@ public class Tablero extends JPanel {
 		}
 		return sb.toString();
 	}
+	//para debugeo
 	private static void imprimir(Nodo raiz){
 		if(raiz.hijos.size()==0){
 			System.out.println(raiz.tablero.toString());
@@ -193,17 +185,15 @@ public class Tablero extends JPanel {
 		Nodo raiz =new Nodo(Color.BLANCO);
 		raiz.tablero=t;
 		Contenedor con=Nodo.crearArbol(raiz, Integer.MIN_VALUE,Integer.MAX_VALUE , Color.BLANCO, (byte)5);
+		t=con.tablero.tablero;
 		System.out.println(con.tablero.tablero.toString());
+		t.mover(new Movimiento(new Posicion('F', (byte)3), new Posicion('E',(byte)2)));
+		System.out.println(t.toString());
+		System.gc();
+		raiz.tablero=t;
+		con=Nodo.crearArbol(raiz, Integer.MIN_VALUE,Integer.MAX_VALUE , Color.BLANCO, (byte)5);
+		t=con.tablero.tablero;
+		System.out.println(t.toString());
 		//System.out.println(raiz.hijos);
-		//System.out.println(con.tablero.tablero.toString());
-		//System.out.println(con.tablero.hijos.get(0).tablero.toString());
-		//imprimir(raiz);
-		//creacion de la parte grafica
-		JFrame jf= new JFrame();
-		jf.setContentPane(t);
-		jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		jf.setSize(400, 400);
-		jf.setLocationRelativeTo(null);
-		jf.setVisible(true);
 	}
 }

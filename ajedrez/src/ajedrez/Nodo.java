@@ -52,13 +52,13 @@ public class Nodo {
 						alfa=z.valor;
 					}
 					if(alfa>=beta){
-						System.out.println("Podado");
+						//System.out.println("Podado");
 						return z;
 					}
 				}
 				x.valor=alfa;
-				System.out.println("Alfa "+alfa);
-				System.out.println("Beta "+beta);
+				//System.out.println("Alfa "+alfa);
+				//System.out.println("Beta "+beta);
 				return x;
 			}else{
 				x.valor=beta;
@@ -74,13 +74,13 @@ public class Nodo {
 						beta=z.valor;
 					}
 					if(alfa>=beta){
-						System.out.println("Podado");
+						//System.out.println("Podado");
 						return z;
 					}
 				}
 				x.valor=beta;
-				System.out.println("Alfa "+alfa);
-				System.out.println("Beta "+beta);
+				//System.out.println("Alfa "+alfa);
+				//System.out.println("Beta "+beta);
 				return x;
 			}
 		}
