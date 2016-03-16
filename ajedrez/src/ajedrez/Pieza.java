@@ -30,7 +30,25 @@ public class Pieza {
 		this.color=color;
 	}
 	public String toString(){
-		return tipo.toString();
+		String t=null;
+		switch(tipo){
+		case PEON: t="P";
+		break;
+		case REINA: t="Q";
+		break;
+		case REY : t="K";
+		break;
+		case CABALLO: t="C";
+		break;
+		case ALFIL:t="A";
+		break;
+		case TORRE:t="T";
+		break;
+		}
+		if(color==Color.NEGRO){
+			t=t.toLowerCase();
+		}
+		return t;
 	}
 	public LinkedList<Movimiento> getMovimientos(){
 		return movimientos;
@@ -56,6 +74,11 @@ public class Pieza {
 	}
 	public int getValor(){
 		return valor;
+	}
+	public void setTablero(Tablero t){
+		if(tablero==null){
+			tablero=t;
+		}
 	}
 	private void Peon(Posicion p){
 		movimientos=new LinkedList<Movimiento>();
@@ -537,5 +560,9 @@ public class Pieza {
 			}
 		}
 		return movimientos;
+	}
+	public Object clone(){
+		Pieza p=new Pieza(tipo,null, color);
+		return p;
 	}
 }

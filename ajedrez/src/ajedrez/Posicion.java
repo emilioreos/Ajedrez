@@ -11,6 +11,13 @@ public class Posicion{
 		fila=fil;
 		columna=col;
 	}
+	public Object clone(){
+		Posicion p=new Posicion(columna, fila);
+		if(pieza!=null){
+			p.pieza=(Pieza)pieza.clone();
+		}
+		return p;
+	}
 	public Posicion getSuperior(){
 		if(fila==8){
 			return null;
@@ -71,5 +78,8 @@ public class Posicion{
 	@Override
 	public String toString(){
 		return (pieza==null)?""+columna+","+fila:pieza.toString()+" "+columna+","+fila;
+	}
+	public String aCadena(){
+		return (pieza==null)?" ":pieza.toString();
 	}
 }

@@ -9,7 +9,9 @@ import javax.swing.JPanel;
 public class Tablero extends JPanel {
 	private static final long serialVersionUID = 1L;
 	public Posicion[][] posiciones=new Posicion[8][8];
-	
+	public Tablero(Object o){
+		
+	}
 	public Tablero(){
 		for(byte i=0;i<8;i++){
 			char l='A';
@@ -105,6 +107,7 @@ public class Tablero extends JPanel {
 			for(int j=0;j<8;j++){
 				Pieza p=posiciones[i][j].pieza;
 				if(p!=null&&p.color==c){
+					p.calcularMovimientos(posiciones[i][j]);
 					movimientos.addAll(p.getMovimientos());
 				}
 			}
@@ -145,6 +148,39 @@ public class Tablero extends JPanel {
 		g.setColor(java.awt.Color.red);
 		g.drawString("Modifica \"paint(Graphics g)\" para pintar el tablero", 0, 10);
 	}
+	public Object clone(){
+		Tablero t=new Tablero(null);
+		for(int i=0;i<8;i++){
+			for(int j=0;j<8;j++){
+				t.posiciones[i][j]=(Posicion)posiciones[i][j].clone();
+				if(t.posiciones[i][j].pieza!=null){
+					t.posiciones[i][j].pieza.setTablero(t);
+				}
+			}
+		}
+		return t;
+	}
+	public String toString(){
+		StringBuilder sb=new StringBuilder();
+		for(int i=7;i>-1;i--){
+			for(int j=7;j>-1;j--){
+				sb.append(posiciones[i][j].aCadena()+"|");
+			}
+			sb.append("\n");
+		}
+		return sb.toString();
+	}
+	private static void imprimir(Nodo raiz){
+		if(raiz.hijos.size()==0){
+			System.out.println(raiz.tablero.toString());
+		}
+		System.out.println(raiz.tablero.toString());
+		for(int i=0;i<raiz.hijos.size();i++){
+			imprimir(raiz.hijos.get(i));
+		}
+		System.out.println();
+		System.out.println();
+	}
 	//main para prueva de componentes
 	public static void main(String[] args){
 		Tablero t=new Tablero();
@@ -152,7 +188,15 @@ public class Tablero extends JPanel {
 		t.mover(new Movimiento(new Posicion('F', (byte)7), new Posicion('F',(byte)3)));
 		Pieza p=t.getPieza(new Posicion('G',(byte)2));
 		p.calcularMovimientos(new Posicion('G',(byte)2));
-		System.out.println(p.getMovimientos());
+		//System.out.println(p.getMovimientos());
+		//System.out.println(t.getMovimientos(Color.BLANCO));
+		Nodo raiz =new Nodo(Color.BLANCO);
+		raiz.tablero=t;
+		Contenedor con=Nodo.crearArbol(raiz, Integer.MIN_VALUE,Integer.MAX_VALUE , Color.BLANCO, (byte)1);
+		//System.out.println(raiz.hijos);
+		//System.out.println(con.tablero.tablero.toString());
+		//System.out.println(con.tablero.hijos.get(0).tablero.toString());
+		imprimir(raiz);
 		//creacion de la parte grafica
 		JFrame jf= new JFrame();
 		jf.setContentPane(t);
