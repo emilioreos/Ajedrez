@@ -1,6 +1,7 @@
 package ajedrez;
 
 import java.awt.Graphics;
+import java.util.LinkedList;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -98,6 +99,48 @@ public class Tablero extends JPanel {
 	}
 		return col;
 	}
+	public LinkedList<Movimiento> getMovimientos(Color c){
+		LinkedList<Movimiento> movimientos=new LinkedList<Movimiento>();
+		for(int i=0;i<8;i++){
+			for(int j=0;j<8;j++){
+				Pieza p=posiciones[i][j].pieza;
+				if(p!=null&&p.color==c){
+					movimientos.addAll(p.getMovimientos());
+				}
+			}
+		}
+		return movimientos;
+	}
+	public int getValor(){
+		int valor=0;
+		for(int i=0;i<8;i++){
+			for(int j=0;j<8;j++){
+				Pieza p=posiciones[i][j].pieza;
+				if(p!=null){
+					if(p.color==Color.BLANCO){
+						valor+=p.getValor();
+					}else{
+						valor-=p.getValor();
+					}
+				}
+			}
+		}
+		return valor;
+	}
+	public Nodo crearArbol(Color c){
+		Nodo raiz=new Nodo(c);
+		raiz.tablero=this;
+		
+		//raiz.crearArbol(raiz);
+		
+		LinkedList<Movimiento> lista = getMovimientos(c);
+		for(int i=0;i<lista.size();i++){
+			
+		}
+		
+		return raiz;
+	}
+	@Override
 	public void paint(Graphics g){
 		g.setColor(java.awt.Color.red);
 		g.drawString("Modifica \"paint(Graphics g)\" para pintar el tablero", 0, 10);
