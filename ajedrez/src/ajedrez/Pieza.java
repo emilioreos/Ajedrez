@@ -1,15 +1,21 @@
 package ajedrez;
 
 import java.util.LinkedList;
-
 public class Pieza {
+	public static final byte INFERIORES=0;
+	public static final byte DERECHA=1;
+	public static final byte IZQUIERDA=2;
+	public static final byte SUPERIORES=3;
+	public static final byte DERECHASUPERIOR=4;
+	public static final byte IZQUIERDASUPERIOR=5;
+	public static final byte DERECHAINFERIOR=6;
+	public static final byte IZQUIERDAINFERIOR=7;
+	
 	private int valor;
 	private LinkedList<Movimiento> movimientos;
 	private Tipo tipo;
 	private Tablero tablero;
 	public Color color;
-	//public boolean primera=true;
-	
 	public Pieza(Tipo tipo,Tablero tablero,Color color){
 		switch(tipo){
 		case REY: valor=99999999;
@@ -107,7 +113,10 @@ public class Pieza {
 					}
 				}
 			}
-			
+			if(ad!=null&&ad.fila==8){
+				tipo=Tipo.REINA;
+				valor=9;
+			}
 		}else{
 			Posicion is,ds,ad;
 			is=p.getInferiorIzquierda();
@@ -133,7 +142,10 @@ public class Pieza {
 					}
 				}
 			}
-			
+			if(ad!=null&&ad.fila==1){
+				tipo=Tipo.REINA;
+				valor=9;
+			}
 		}
 	}
 	private void Rey(Posicion p){
@@ -155,83 +167,55 @@ public class Pieza {
 				II=tablero.getPieza(ii),
 				IN=tablero.getPieza(in),
 				DI=tablero.getPieza(di);
-		
-		if(color==Color.BLANCO){
-			if((is!=null&&IS==null)||(IS!=null&&IS.color==Color.NEGRO)){
-				movimientos.add(new Movimiento(p, is));
-			}
-			if((s!=null&&S==null)||(S!=null&&S.color==Color.NEGRO)){
-				movimientos.add(new Movimiento(p, s));
-			}
-			if((ds!=null&&DS==null)||(DS!=null&&DS.color==Color.NEGRO)){
-				movimientos.add(new Movimiento(p, ds));
-			}
-			if((i!=null&&I==null)||(I!=null&&I.color==Color.NEGRO)){
-				movimientos.add(new Movimiento(p, i));
-			}
-			if((d!=null&&D==null)||(D!=null&&D.color==Color.NEGRO)){
-				movimientos.add(new Movimiento(p, d));
-			}
-			if((ii!=null&&II==null)||(II!=null&&II.color==Color.NEGRO)){
-				movimientos.add(new Movimiento(p, ii));
-			}
-			if((in!=null&&IN==null)||(IN!=null&&IN.color==Color.NEGRO)){
-				movimientos.add(new Movimiento(p, in));
-			}
-			if((di!=null&&DI==null)||(DI!=null&&DI.color==Color.NEGRO)){
-				movimientos.add(new Movimiento(p, di));
-			}
-		}else{
-			if((is!=null&&IS==null)||(IS!=null&&IS.color==Color.BLANCO)){
-				movimientos.add(new Movimiento(p, is));
-			}
-			if((s!=null&&S==null)||(S!=null&&S.color==Color.BLANCO)){
-				movimientos.add(new Movimiento(p, s));
-			}
-			if((ds!=null&&DS==null)||(DS!=null&&DS.color==Color.BLANCO)){
-				movimientos.add(new Movimiento(p, ds));
-			}
-			if((i!=null&&I==null)||(I!=null&&I.color==Color.BLANCO)){
-				movimientos.add(new Movimiento(p, i));
-			}
-			if((d!=null&&D==null)||(D!=null&&D.color==Color.BLANCO)){
-				movimientos.add(new Movimiento(p, d));
-			}
-			if((ii!=null&&II==null)||(II!=null&&II.color==Color.BLANCO)){
-				movimientos.add(new Movimiento(p, ii));
-			}
-			if((in!=null&&IN==null)||(IN!=null&&IN.color==Color.BLANCO)){
-				movimientos.add(new Movimiento(p, in));
-			}
-			if((di!=null&&DI==null)||(DI!=null&&DI.color==Color.BLANCO)){
-				movimientos.add(new Movimiento(p, di));
-			}
+		if((is!=null&&IS==null)||(IS!=null&&IS.color!=color)){
+			movimientos.add(new Movimiento(p, is));
+		}
+		if((s!=null&&S==null)||(S!=null&&S.color!=color)){
+			movimientos.add(new Movimiento(p, s));
+		}
+		if((ds!=null&&DS==null)||(DS!=null&&DS.color!=color)){
+			movimientos.add(new Movimiento(p, ds));
+		}
+		if((i!=null&&I==null)||(I!=null&&I.color!=color)){
+			movimientos.add(new Movimiento(p, i));
+		}
+		if((d!=null&&D==null)||(D!=null&&D.color!=color)){
+			movimientos.add(new Movimiento(p, d));
+		}
+		if((ii!=null&&II==null)||(II!=null&&II.color!=color)){
+			movimientos.add(new Movimiento(p, ii));
+		}
+		if((in!=null&&IN==null)||(IN!=null&&IN.color!=color)){
+			movimientos.add(new Movimiento(p, in));
+		}
+		if((di!=null&&DI==null)||(DI!=null&&DI.color!=color)){
+			movimientos.add(new Movimiento(p, di));
 		}
 	}
 	private void Reina(Posicion p){
 		movimientos=new LinkedList<Movimiento>();
-		movimientos.addAll(movimientosDSIzquierda(p));
-		movimientos.addAll(movimientosDIIzquierda(p));
-		movimientos.addAll(movimientosDSDerecha(p));
-		movimientos.addAll(movimientosDIDerecha(p));
-		movimientos.addAll(movimientosSuperiores(p));
-		movimientos.addAll(movimientosInferiores(p));
-		movimientos.addAll(movimientosIzquierda(p));
-		movimientos.addAll(movimientosDerecha(p));
+		movimientos.addAll(movimientosPorForma(p, IZQUIERDASUPERIOR));
+		movimientos.addAll(movimientosPorForma(p,IZQUIERDAINFERIOR));
+		movimientos.addAll(movimientosPorForma(p, DERECHASUPERIOR));
+		movimientos.addAll(movimientosPorForma(p, DERECHAINFERIOR));
+		movimientos.addAll(movimientosPorForma(p, SUPERIORES));
+		movimientos.addAll(movimientosPorForma(p,INFERIORES));
+		movimientos.addAll(movimientosPorForma(p, IZQUIERDA));
+		movimientos.addAll(movimientosPorForma(p, DERECHA));
 	}
 	private void Alfil(Posicion p){
 		movimientos=new LinkedList<Movimiento>();
-		movimientos.addAll(movimientosDSIzquierda(p));
-		movimientos.addAll(movimientosDIIzquierda(p));
-		movimientos.addAll(movimientosDSDerecha(p));
-		movimientos.addAll(movimientosDIDerecha(p));
+		movimientos.addAll(movimientosPorForma(p, IZQUIERDASUPERIOR));
+		movimientos.addAll(movimientosPorForma(p,IZQUIERDAINFERIOR));
+		movimientos.addAll(movimientosPorForma(p, DERECHASUPERIOR));
+		movimientos.addAll(movimientosPorForma(p, DERECHAINFERIOR));
 	}
 	public void Torre(Posicion p){
 		movimientos=new LinkedList<Movimiento>();
-		movimientos.addAll(movimientosSuperiores(p));
-		movimientos.addAll(movimientosInferiores(p));
-		movimientos.addAll(movimientosIzquierda(p));
-		movimientos.addAll(movimientosDerecha(p));
+		movimientos.addAll(movimientosPorForma(p, SUPERIORES));
+		movimientos.addAll(movimientosPorForma(p,INFERIORES));
+		movimientos.addAll(movimientosPorForma(p, IZQUIERDA));
+		movimientos.addAll(movimientosPorForma(p, DERECHA));
 	}
 	private void Caballo(Posicion p){
 		movimientos = new LinkedList<Movimiento>();
@@ -251,8 +235,6 @@ public class Pieza {
 				}
 			}
 		}
-		
-		
 		if(esd!=null){
 			Posicion p1=esd.getSuperior(),p2=esd.getDerecha();
 			if(p1!=null){
@@ -268,8 +250,6 @@ public class Pieza {
 				}
 			}
 		}
-		
-		
 		if(eii!=null){
 			Posicion p1=eii.getInferior(),p2=eii.getIzquierda();
 			if(p1!=null){
@@ -285,8 +265,6 @@ public class Pieza {
 				}
 			}
 		}
-		
-		
 		if(eid!=null){
 			Posicion p1=eid.getInferior(),p2=eid.getDerecha();
 			if(p1!=null){
@@ -301,268 +279,49 @@ public class Pieza {
 					movimientos.add(new Movimiento(p, p2));
 				}
 			}
-		}
-		
-		
-	}
-	private LinkedList<Movimiento> movimientosDSIzquierda(Posicion p){
-		LinkedList<Movimiento> movimientos=new LinkedList<Movimiento>();
-		Posicion s=p.getSuperiorIzquierda();
-		Pieza S=tablero.getPieza(s);
-		//todos los movimientos hacia la izquierda superior
-		while(s!=null){
-			if(color==Color.BLANCO){
-				if(S==null){
-					movimientos.add(new Movimiento(p, s));
-				}else if(S!=null&&S.color==Color.NEGRO){
-					movimientos.add(new Movimiento(p, s));
-					break;
-				}else{
-					break;
-				}
-				s=s.getSuperiorIzquierda();
-				S=tablero.getPieza(s);
-			}else{
-				if(S==null){
-					movimientos.add(new Movimiento(p, s));
-				}else if(S!=null&&S.color==Color.BLANCO){
-					movimientos.add(new Movimiento(p, s));
-					break;
-				}else{
-					break;
-				}
-				s=s.getSuperiorIzquierda();
-				S=tablero.getPieza(s);
-			}
-		}
-		return movimientos;
-	}
-	private LinkedList<Movimiento> movimientosDSDerecha(Posicion p){
-		LinkedList<Movimiento> movimientos=new LinkedList<Movimiento>();
-		Posicion s=p.getSuperiorDerecha();
-		Pieza S=tablero.getPieza(s);
-		//todos los movimientos hacia la derecha superior
-		while(s!=null){
-			if(color==Color.BLANCO){
-				if(S==null){
-					movimientos.add(new Movimiento(p, s));
-				}else if(S!=null&&S.color==Color.NEGRO){
-					movimientos.add(new Movimiento(p, s));
-					break;
-				}else{
-					break;
-				}
-				s=s.getSuperiorDerecha();
-				S=tablero.getPieza(s);
-			}else{
-				if(S==null){
-					movimientos.add(new Movimiento(p, s));
-				}else if(S!=null&&S.color==Color.BLANCO){
-					movimientos.add(new Movimiento(p, s));
-					break;
-				}else{
-					break;
-				}
-				s=s.getSuperiorDerecha();
-				S=tablero.getPieza(s);
-			}
-		}
-		return movimientos;
-	}
-	private LinkedList<Movimiento> movimientosDIIzquierda(Posicion p){
-		LinkedList<Movimiento> movimientos=new LinkedList<Movimiento>();
-		Posicion s=p.getInferiorIzquierda();
-		Pieza S=tablero.getPieza(s);
-		//todos los movimientos hacia la izquierda inferior
-		while(s!=null){
-			if(color==Color.BLANCO){
-				if(S==null){
-					movimientos.add(new Movimiento(p, s));
-				}else if(S!=null&&S.color==Color.NEGRO){
-					movimientos.add(new Movimiento(p, s));
-					break;
-				}else{
-					break;
-				}
-				s=s.getInferiorIzquierda();
-				S=tablero.getPieza(s);
-			}else{
-				if(S==null){
-					movimientos.add(new Movimiento(p, s));
-				}else if(S!=null&&S.color==Color.BLANCO){
-					movimientos.add(new Movimiento(p, s));
-					break;
-				}else{
-					break;
-				}
-				s=s.getInferiorIzquierda();
-				S=tablero.getPieza(s);
-			}
-		}
-		return movimientos;
-	}
-	private LinkedList<Movimiento> movimientosDIDerecha(Posicion p){
-		LinkedList<Movimiento> movimientos=new LinkedList<Movimiento>();
-		Posicion s=p.getInferiorDerecha();
-		Pieza S=tablero.getPieza(s);
-		//todos los movimientos hacia la derecha inferior
-		while(s!=null){
-			if(color==Color.BLANCO){
-				if(S==null){
-					movimientos.add(new Movimiento(p, s));
-				}else if(S!=null&&S.color==Color.NEGRO){
-					movimientos.add(new Movimiento(p, s));
-					break;
-				}else{
-					break;
-				}
-				s=s.getInferiorDerecha();
-				S=tablero.getPieza(s);
-			}else{
-				if(S==null){
-					movimientos.add(new Movimiento(p, s));
-				}else if(S!=null&&S.color==Color.BLANCO){
-					movimientos.add(new Movimiento(p, s));
-					break;
-				}else{
-					break;
-				}
-				s=s.getInferiorDerecha();
-				S=tablero.getPieza(s);
-			}
-		}
-		return movimientos;
-	}
-	private LinkedList<Movimiento> movimientosDerecha(Posicion p){
-		LinkedList<Movimiento> movimientos=new LinkedList<Movimiento>();
-		Posicion s=p.getDerecha();
-		Pieza S=tablero.getPieza(s);
-		//todos los movimientos hacia la derecha
-		while(s!=null){
-			if(color==Color.BLANCO){
-				if(S==null){
-					movimientos.add(new Movimiento(p, s));
-				}else if(S!=null&&S.color==Color.NEGRO){
-					movimientos.add(new Movimiento(p, s));
-					break;
-				}else{
-					break;
-				}
-				s=s.getDerecha();
-				S=tablero.getPieza(s);
-			}else{
-				if(S==null){
-					movimientos.add(new Movimiento(p, s));
-				}else if(S!=null&&S.color==Color.BLANCO){
-					movimientos.add(new Movimiento(p, s));
-					break;
-				}else{
-					break;
-				}
-				s=s.getDerecha();
-				S=tablero.getPieza(s);
-			}
-		}
-		return movimientos;
-	}
-	private LinkedList<Movimiento> movimientosIzquierda(Posicion p){
-		LinkedList<Movimiento> movimientos=new LinkedList<Movimiento>();
-		Posicion s=p.getIzquierda();
-		Pieza S=tablero.getPieza(s);
-		//todos los movimientos hacia la izquierda
-		while(s!=null){
-			if(color==Color.BLANCO){
-				if(S==null){
-					movimientos.add(new Movimiento(p, s));
-				}else if(S!=null&&S.color==Color.NEGRO){
-					movimientos.add(new Movimiento(p, s));
-					break;
-				}else{
-					break;
-				}
-				s=s.getIzquierda();
-				S=tablero.getPieza(s);
-			}else{
-				if(S==null){
-					movimientos.add(new Movimiento(p, s));
-				}else if(S!=null&&S.color==Color.BLANCO){
-					movimientos.add(new Movimiento(p, s));
-					break;
-				}else{
-					break;
-				}
-				s=s.getIzquierda();
-				S=tablero.getPieza(s);
-			}
-		}
-		return movimientos;
-	}
-	private LinkedList<Movimiento> movimientosInferiores(Posicion p){
-		LinkedList<Movimiento> movimientos=new LinkedList<Movimiento>();
-		Posicion s=p.getInferior();
-		Pieza S=tablero.getPieza(s);
-		//todos los movimientos hacia abajo
-		while(s!=null){
-			if(color==Color.BLANCO){
-				if(S==null){
-					movimientos.add(new Movimiento(p, s));
-				}else if(S!=null&&S.color==Color.NEGRO){
-					movimientos.add(new Movimiento(p, s));
-					break;
-				}else{
-					break;
-				}
-				s=s.getInferior();
-				S=tablero.getPieza(s);
-			}else{
-				if(S==null){
-					movimientos.add(new Movimiento(p, s));
-				}else if(S!=null&&S.color==Color.BLANCO){
-					movimientos.add(new Movimiento(p, s));
-					break;
-				}else{
-					break;
-				}
-				s=s.getInferior();
-				S=tablero.getPieza(s);
-			}
-		}
-		return movimientos;
-	}
-	private LinkedList<Movimiento> movimientosSuperiores(Posicion p){
-		LinkedList<Movimiento> movimientos=new LinkedList<Movimiento>();
-		Posicion s=p.getSuperior();
-		Pieza S=tablero.getPieza(s);
-		//todos los movimientos posibles hacia arriba
-		while(s!=null){
-			if(color==Color.BLANCO){
-				if(S==null){
-					movimientos.add(new Movimiento(p, s));
-				}else if(S!=null&&S.color==Color.NEGRO){
-					movimientos.add(new Movimiento(p, s));
-					break;
-				}else{
-					break;
-				}
-				s=s.getSuperior();
-				S=tablero.getPieza(s);
-			}else{
-				if(S==null){
-					movimientos.add(new Movimiento(p, s));
-				}else if(S!=null&&S.color==Color.BLANCO){
-					movimientos.add(new Movimiento(p, s));
-					break;
-				}else{
-					break;
-				}
-				s=s.getSuperior();
-				S=tablero.getPieza(s);
-			}
-		}
-		return movimientos;
+		}	
 	}
 	public Object clone(){
 		Pieza p=new Pieza(tipo,null, color);
 		return p;
+	}
+	public Posicion getPosForma(Posicion p,byte forma){
+		Posicion s=null;
+		if(forma==INFERIORES){
+			s=p.getInferior();
+		}else if(forma==DERECHA){
+			s=p.getDerecha();
+		}else if(forma==IZQUIERDA){
+			s=p.getIzquierda();
+		}else if(forma==SUPERIORES){
+			s=p.getSuperior();
+		}else if(forma==DERECHASUPERIOR){
+			s=p.getSuperiorDerecha();
+		}else if(forma==IZQUIERDASUPERIOR){
+			s=p.getSuperiorIzquierda();
+		}else if(forma==DERECHAINFERIOR){
+			s=p.getInferiorDerecha();
+		}else if(forma==IZQUIERDAINFERIOR){
+			s=p.getInferiorIzquierda();
+		}
+		return s;
+	}
+	private LinkedList<Movimiento> movimientosPorForma(Posicion p,byte forma){
+		LinkedList<Movimiento> movimientos=new LinkedList<Movimiento>();
+		Posicion s=getPosForma(p, forma);
+		Pieza S=tablero.getPieza(s);
+		while(s!=null){
+			if(S==null){
+				movimientos.add(new Movimiento(p, s));
+			}else if(S!=null&&S.color!=color){
+				movimientos.add(new Movimiento(p, s));
+				break;
+			}else{
+				break;
+			}
+			s=getPosForma(s, forma);
+			S=tablero.getPieza(s);
+		}
+		return movimientos;
 	}
 }

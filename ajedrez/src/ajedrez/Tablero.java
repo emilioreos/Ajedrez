@@ -1,8 +1,8 @@
 package ajedrez;
 
 import java.util.LinkedList;
-
-
+import java.util.Random;
+import java.util.Scanner;
 public class Tablero{
 	public Posicion[][] posiciones=new Posicion[8][8];
 	public Tablero(Object o){
@@ -176,24 +176,61 @@ public class Tablero{
 	//main para prueva de componentes
 	public static void main(String[] args){
 		Tablero t=new Tablero();
+		Scanner sc=new Scanner(System.in);
+		int veces=20;//sc.nextInt();
+		Random r=new Random();
+		Nodo raiz =new Nodo(Color.BLANCO),raiz2=new Nodo(Color.NEGRO);
+		raiz.tablero=t;
+		Contenedor con=Nodo.crearArbol(raiz, Integer.MIN_VALUE,Integer.MAX_VALUE , Color.BLANCO, (byte)4,r);
+		t=con.tablero.tablero;
+		System.out.println(t.toString());
+		raiz2.tablero=t;
+		con=Nodo.crearArbol(raiz2, Integer.MIN_VALUE,Integer.MAX_VALUE , Color.NEGRO, (byte)4,r);
+		t=con.tablero.tablero;
+		System.out.println(t.toString());
+		for(int i=0;i<veces;i++){
+			System.out.println(i+1);
+			raiz=new Nodo(Color.BLANCO);
+			raiz.tablero=t;
+			byte inte=4;//(byte)r.nextInt(5);
+			/*if(inte==0){
+				inte=1;
+			}*/
+			con=Nodo.crearArbol(raiz, Integer.MIN_VALUE,Integer.MAX_VALUE , Color.BLANCO, inte,r);
+			t=con.tablero.tablero;
+			System.out.println(t.toString());
+			raiz2=new Nodo(Color.NEGRO);
+			raiz2.tablero=t;
+			
+			con=Nodo.crearArbol(raiz2, Integer.MIN_VALUE,Integer.MAX_VALUE , Color.NEGRO, inte,r);
+			t=con.tablero.tablero;
+			System.out.println(t.toString());
+			System.out.println(t.getValor());
+			System.gc();
+		}
+		/*System.out.println(t.toString());
 		t.mover(new Movimiento(new Posicion('H', (byte)7), new Posicion('H',(byte)3)));
 		t.mover(new Movimiento(new Posicion('F', (byte)7), new Posicion('F',(byte)3)));
-		Pieza p=t.getPieza(new Posicion('G',(byte)2));
-		p.calcularMovimientos(new Posicion('G',(byte)2));
-		//System.out.println(p.getMovimientos());
-		//System.out.println(t.getMovimientos(Color.BLANCO));
+		System.out.println(t.toString());
 		Nodo raiz =new Nodo(Color.BLANCO);
 		raiz.tablero=t;
-		Contenedor con=Nodo.crearArbol(raiz, Integer.MIN_VALUE,Integer.MAX_VALUE , Color.BLANCO, (byte)5);
+		Contenedor con=Nodo.crearArbol(raiz, Integer.MIN_VALUE,Integer.MAX_VALUE , Color.BLANCO, (byte)4);
 		t=con.tablero.tablero;
-		System.out.println(con.tablero.tablero.toString());
-		t.mover(new Movimiento(new Posicion('F', (byte)3), new Posicion('E',(byte)2)));
+		System.out.println(t.toString());
+		t.mover(new Movimiento(new Posicion('H', (byte)8), new Posicion('H',(byte)4)));
 		System.out.println(t.toString());
 		System.gc();
 		raiz.tablero=t;
-		con=Nodo.crearArbol(raiz, Integer.MIN_VALUE,Integer.MAX_VALUE , Color.BLANCO, (byte)5);
+		con=Nodo.crearArbol(raiz, Integer.MIN_VALUE,Integer.MAX_VALUE , Color.BLANCO, (byte)4);
 		t=con.tablero.tablero;
 		System.out.println(t.toString());
+		t.mover(new Movimiento(new Posicion('G', (byte)7), new Posicion('G',(byte)5)));
+		System.out.println(t.toString());
+		System.gc();
+		raiz.tablero=t;
+		con=Nodo.crearArbol(raiz, Integer.MIN_VALUE,Integer.MAX_VALUE , Color.BLANCO, (byte)4);
+		t=con.tablero.tablero;
+		System.out.println(t.toString());*/
 		//System.out.println(raiz.hijos);
 	}
 }
