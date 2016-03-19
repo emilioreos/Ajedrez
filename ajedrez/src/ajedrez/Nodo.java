@@ -1,7 +1,6 @@
 package ajedrez;
 
 import java.util.LinkedList;
-import java.util.Random;
 
 public class Nodo {
 	public Tablero tablero;
@@ -23,7 +22,7 @@ public class Nodo {
 	public String toString(){
 		return "\n"+tablero.toString()+"\n";
 	}
-	public static Contenedor crearArbol(Nodo n,int alfa,int beta,Color c,byte prof,Random r){
+	public static Contenedor crearArbol(Nodo n,int alfa,int beta,Color c,byte prof){
 		if(prof==0){
 			Contenedor x=new Contenedor();
 			x.tablero=n;
@@ -45,9 +44,9 @@ public class Nodo {
 					nodos[i]=new Nodo(n.nextColor());
 					nodos[i].tablero=(Tablero)n.tablero.clone();
 					nodos[i].tablero.mover(l.get(i));
-					Contenedor z=crearArbol(nodos[i], alfa, beta, n.nextColor(), (byte)(prof-1),r);
+					Contenedor z=crearArbol(nodos[i], alfa, beta, n.nextColor(), (byte)(prof-1));
 					n.addHijo(nodos[i]);
-					if(z.valor>alfa||(z.valor==alfa&&r.nextBoolean()&&r.nextInt(5)==3)){
+					if(z.valor>alfa){
 						z.tablero=nodos[i];
 						x.tablero=z.tablero;
 						alfa=z.valor;
@@ -67,9 +66,9 @@ public class Nodo {
 					nodos[i]=new Nodo(n.nextColor());
 					nodos[i].tablero=(Tablero)n.tablero.clone();
 					nodos[i].tablero.mover(l.get(i));
-					Contenedor z=crearArbol(nodos[i], alfa, beta, n.nextColor(), (byte)(prof-1),r);
+					Contenedor z=crearArbol(nodos[i], alfa, beta, n.nextColor(), (byte)(prof-1));
 					n.addHijo(nodos[i]);
-					if(z.valor<beta||(z.valor==beta&&r.nextBoolean()&&r.nextInt(5)==3)){
+					if(z.valor<beta){
 						z.tablero=nodos[i];
 						x.tablero=z.tablero;
 						beta=z.valor;

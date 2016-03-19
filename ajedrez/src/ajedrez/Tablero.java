@@ -1,8 +1,10 @@
 package ajedrez;
 
 import java.util.LinkedList;
-import java.util.Random;
-import java.util.Scanner;
+
+import javax.swing.JFrame;
+
+import GUIEMILIO.TableroGrafico;
 public class Tablero{
 	public Posicion[][] posiciones=new Posicion[8][8];
 	public Tablero(Object o){
@@ -75,7 +77,7 @@ public class Tablero{
 			po.pieza=null;
 		}
 	}
-	private byte toColumna(char c){
+	public byte toColumna(char c){
 		byte col=-1;
 		switch(c){
 		case 'A': col=0;
@@ -162,6 +164,7 @@ public class Tablero{
 		return sb.toString();
 	}
 	//para debugeo
+	/* por ser para debugeo la comente
 	private static void imprimir(Nodo raiz){
 		if(raiz.hijos.size()==0){
 			System.out.println(raiz.tablero.toString());
@@ -172,10 +175,19 @@ public class Tablero{
 		}
 		System.out.println();
 		System.out.println();
-	}
+	}*/
 	//main para prueva de componentes
 	public static void main(String[] args){
-		Tablero t=new Tablero();
+		Tablero tt=new Tablero();
+		TableroGrafico t= new TableroGrafico(tt);
+		JFrame x=new JFrame();
+		x.add(t);
+		t.setSize(8*TableroGrafico.ancho, 8*TableroGrafico.ancho);
+		x.setSize(8*TableroGrafico.ancho+5, 8*TableroGrafico.ancho+30);
+		x.setVisible(true);
+		x.setResizable(false);
+		x.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		/*Tablero t=new Tablero();
 		Scanner sc=new Scanner(System.in);
 		int veces=20;//sc.nextInt();
 		Random r=new Random();
@@ -195,7 +207,7 @@ public class Tablero{
 			byte inte=4;//(byte)r.nextInt(5);
 			/*if(inte==0){
 				inte=1;
-			}*/
+			}*//*
 			con=Nodo.crearArbol(raiz, Integer.MIN_VALUE,Integer.MAX_VALUE , Color.BLANCO, inte,r);
 			t=con.tablero.tablero;
 			System.out.println(t.toString());
@@ -207,7 +219,7 @@ public class Tablero{
 			System.out.println(t.toString());
 			System.out.println(t.getValor());
 			System.gc();
-		}
+		}*/
 		/*System.out.println(t.toString());
 		t.mover(new Movimiento(new Posicion('H', (byte)7), new Posicion('H',(byte)3)));
 		t.mover(new Movimiento(new Posicion('F', (byte)7), new Posicion('F',(byte)3)));
