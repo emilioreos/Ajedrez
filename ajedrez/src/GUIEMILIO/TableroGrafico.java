@@ -176,13 +176,14 @@ public class TableroGrafico extends JPanel implements MouseListener,Runnable {
 		if(inicio==null){
 			Nodo raiz =new Nodo(ajedrez.Color.NEGRO);
 			raiz.tablero=tablero;
-			Contenedor con=Nodo.crearArbol(raiz, Integer.MIN_VALUE,Integer.MAX_VALUE ,ajedrez.Color.NEGRO, (byte)4);
+			Contenedor con=raiz.crearArbol(raiz, Integer.MIN_VALUE,Integer.MAX_VALUE ,ajedrez.Color.NEGRO, (byte)4);
 			tablero=con.tablero.tablero;
 			con.tablero.hijos.removeAll(con.tablero.hijos);
 			con=null;
 			System.gc();
 			pintarTablero(this.getGraphics());
 			turno=true;
+			//Nodo.posvis=0;
 		}
 		System.gc();
 	}

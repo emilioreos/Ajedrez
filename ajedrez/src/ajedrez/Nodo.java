@@ -6,6 +6,7 @@ public class Nodo {
 	public Tablero tablero;
 	public LinkedList<Nodo> hijos=new LinkedList<Nodo>();
 	private Color color;
+	public static int posvis=0;
 	public Nodo(/*Tablero t,*/Color c){
 		//tablero=t;
 		color=c;
@@ -22,11 +23,12 @@ public class Nodo {
 	public String toString(){
 		return "\n"+tablero.toString()+"\n";
 	}
-	public static Contenedor crearArbol(Nodo n,int alfa,int beta,Color c,byte prof){
+	public Contenedor crearArbol(Nodo n,int alfa,int beta,Color c,byte prof){
 		if(prof==0){
 			Contenedor x=new Contenedor();
 			x.tablero=n;
 			x.valor=n.tablero.getValor();
+			//System.out.println(++posvis);
 			return x;
 		}else{
 			Contenedor x=new Contenedor();
@@ -35,6 +37,7 @@ public class Nodo {
 			int y=l.size();
 			if(y==0){
 				x.valor=n.tablero.getValor();
+				//System.out.println(++posvis);
 				return x;
 			}
 			Nodo nodos[]=new Nodo[y];
