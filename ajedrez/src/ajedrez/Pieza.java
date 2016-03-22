@@ -57,7 +57,9 @@ public class Pieza {
 		return t;
 	}
 	public LinkedList<Movimiento> getMovimientos(){
-		return movimientos;
+		LinkedList<Movimiento> l=movimientos;
+		movimientos=null;
+		return l;
 	}
 	public void calcularMovimientos(Posicion p){
 		switch(tipo){

@@ -43,7 +43,7 @@ public class Nodo {
 				for(int i=0;i<y;i++){
 					nodos[i]=new Nodo(n.nextColor());
 					nodos[i].tablero=(Tablero)n.tablero.clone();
-					nodos[i].tablero.mover(l.get(i));
+					nodos[i].tablero.mover(l.removeFirst());
 					Contenedor z=crearArbol(nodos[i], alfa, beta, n.nextColor(), (byte)(prof-1));
 					n.addHijo(nodos[i]);
 					if(z.valor>alfa){
@@ -60,12 +60,12 @@ public class Nodo {
 				//System.out.println("Alfa "+alfa);
 				//System.out.println("Beta "+beta);
 				return x;
-			}if(c==Color.NEGRO){
+			}else{
 				x.valor=beta;
 				for(int i=0;i<y;i++){
 					nodos[i]=new Nodo(n.nextColor());
 					nodos[i].tablero=(Tablero)n.tablero.clone();
-					nodos[i].tablero.mover(l.get(i));
+					nodos[i].tablero.mover(l.removeFirst());
 					Contenedor z=crearArbol(nodos[i], alfa, beta, n.nextColor(), (byte)(prof-1));
 					n.addHijo(nodos[i]);
 					if(z.valor<beta){
@@ -83,7 +83,6 @@ public class Nodo {
 				//System.out.println("Beta "+beta);
 				return x;
 			}
-			return x;
 		}
 	}
 }

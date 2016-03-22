@@ -131,6 +131,7 @@ public class TableroGrafico extends JPanel implements MouseListener,Runnable {
 					}
 				}
 			}else{
+				inicio.pieza.calcularMovimientos(inicio);
 				Object m[]=inicio.pieza.getMovimientos().toArray();
 				for(int i=0;i<m.length;i++){
 					if(((Movimiento)m[i]).destino.equals(actual)){
@@ -177,6 +178,9 @@ public class TableroGrafico extends JPanel implements MouseListener,Runnable {
 			raiz.tablero=tablero;
 			Contenedor con=Nodo.crearArbol(raiz, Integer.MIN_VALUE,Integer.MAX_VALUE ,ajedrez.Color.NEGRO, (byte)4);
 			tablero=con.tablero.tablero;
+			con.tablero.hijos.removeAll(con.tablero.hijos);
+			con=null;
+			System.gc();
 			pintarTablero(this.getGraphics());
 			turno=true;
 		}
