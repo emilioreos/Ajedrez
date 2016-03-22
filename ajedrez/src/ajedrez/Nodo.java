@@ -60,7 +60,7 @@ public class Nodo {
 				//System.out.println("Alfa "+alfa);
 				//System.out.println("Beta "+beta);
 				return x;
-			}else{
+			}if(c==Color.NEGRO){
 				x.valor=beta;
 				for(int i=0;i<y;i++){
 					nodos[i]=new Nodo(n.nextColor());
@@ -83,6 +83,7 @@ public class Nodo {
 				//System.out.println("Beta "+beta);
 				return x;
 			}
+			return x;
 		}
 	}
 }
