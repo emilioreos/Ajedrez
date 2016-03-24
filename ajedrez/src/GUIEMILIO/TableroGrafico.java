@@ -74,7 +74,7 @@ public class TableroGrafico extends JPanel implements MouseListener,Runnable {
 		for(int i=0;i<8;i++){
 			for(int j=0;j<8;j++){
 				if(color){
-					g.setColor(java.awt.Color.red);
+					g.setColor(java.awt.Color.blue);
 					g.fillRect(j*ancho, i*ancho, ancho, ancho);
 					color=false;
 				}else{
@@ -122,7 +122,7 @@ public class TableroGrafico extends JPanel implements MouseListener,Runnable {
 			if(inicio==null){
 				if(p!=null){
 					inicio=actual;
-					g.setColor(new Color(0, 255,255, 100));
+					g.setColor(new Color(255,255,0, 100));
 					g.fillRect(x*ancho, y*ancho, ancho, ancho);
 					inicio.pieza.calcularMovimientos(inicio);
 					Object m[]=inicio.pieza.getMovimientos().toArray();
