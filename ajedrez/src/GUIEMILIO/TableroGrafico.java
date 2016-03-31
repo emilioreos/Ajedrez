@@ -38,12 +38,14 @@ public class TableroGrafico extends JPanel implements MouseListener,Runnable {
 	public static final int ancho=60;
 	private Tablero tablero;
 	private Image imagenes[]=new Image[12];
+	private Image marco;
 	private Posicion inicio=null;
 	private boolean turno=true;
 	public TableroGrafico(Tablero t){
 		addMouseListener(this);
 		tablero=t;
 		try {
+			marco=ImageIO.read(getClass().getResource("/imagenes/marco.png"));
 			imagenes[PEON_B]=ImageIO.read(getClass().getResource("/imagenes/peonb.png"));
 			imagenes[PEON_N]=ImageIO.read(getClass().getResource("/imagenes/peonn.png"));
 			
@@ -62,7 +64,6 @@ public class TableroGrafico extends JPanel implements MouseListener,Runnable {
 			imagenes[CABALLO_B]=ImageIO.read(getClass().getResource("/imagenes/caballob.png"));
 			imagenes[CABALLO_N]=ImageIO.read(getClass().getResource("/imagenes/caballon.png"));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -74,11 +75,11 @@ public class TableroGrafico extends JPanel implements MouseListener,Runnable {
 		for(int i=0;i<8;i++){
 			for(int j=0;j<8;j++){
 				if(color){
-					g.setColor(java.awt.Color.blue);
+					g.setColor(java.awt.Color.DARK_GRAY);
 					g.fillRect(j*ancho, i*ancho, ancho, ancho);
 					color=false;
 				}else{
-					g.setColor(java.awt.Color.white);
+					g.setColor(java.awt.Color.GRAY);
 					g.fillRect(j*ancho, i*ancho, ancho, ancho);
 					color=true;
 				}
@@ -109,25 +110,41 @@ public class TableroGrafico extends JPanel implements MouseListener,Runnable {
 				color=true;
 			}
 		}
+		if(tablero.getValor()>=99999999){
+			g.setColor(new Color(0,0,255));
+			g.fillRect(120, 120, 240, 240);
+			g.setColor(new Color(255,255,255));
+			g.drawString("Ganaste Campeón :D", 200, 240);
+			turno=false;
+			return;
+		}else if(tablero.getValor()<=-99999999){
+			g.setColor(new Color(255,144,21));
+			g.fillRect(120, 120, 240, 240);
+			g.setColor(new Color(255,255,255));
+			g.drawString("Gané LOSER .l.", 200, 240);
+			turno=false;
+			return;
+		}
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
 		if(turno){
 			int x=e.getX()/ancho,y=e.getY()/ancho;
 			Graphics g=this.getGraphics();
 			Posicion actual=tablero.posiciones[7-y][x];
 			Pieza p=actual.pieza;
 			if(inicio==null){
-				if(p!=null){
+				if(p!=null&&p.color==ajedrez.Color.BLANCO){
 					inicio=actual;
-					g.setColor(new Color(255,255,0, 100));
-					g.fillRect(x*ancho, y*ancho, ancho, ancho);
+					//g.setColor(new Color(255,255,0, 100));
+					//g.fillRect(x*ancho, y*ancho, ancho, ancho);
+					g.drawImage(marco, x*ancho, y*ancho, null);
 					inicio.pieza.calcularMovimientos(inicio);
 					Object m[]=inicio.pieza.getMovimientos().toArray();
 					for(int i=0;i<m.length;i++){
-						g.fillRect(tablero.toColumna(((Movimiento)m[i]).destino.columna)*ancho, (8-((Movimiento)m[i]).destino.fila)*ancho, ancho, ancho);
+						//g.fillRect(tablero.toColumna(((Movimiento)m[i]).destino.columna)*ancho, (8-((Movimiento)m[i]).destino.fila)*ancho, ancho, ancho);
+						g.drawImage(marco,tablero.toColumna(((Movimiento)m[i]).destino.columna)*ancho, (8-((Movimiento)m[i]).destino.fila)*ancho, null);
 					}
 				}
 			}else{

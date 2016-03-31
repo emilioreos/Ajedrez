@@ -35,7 +35,7 @@ public class Pieza {
 		this.tablero=tablero;
 		this.color=color;
 	}
-	public String toString(){
+	/*public String toString(){//debug
 		String t=null;
 		switch(tipo){
 		case PEON: t="P";
@@ -55,7 +55,7 @@ public class Pieza {
 			t=t.toLowerCase();
 		}
 		return t;
-	}
+	}*/
 	public LinkedList<Movimiento> getMovimientos(){
 		LinkedList<Movimiento> l=movimientos;
 		movimientos=null;
