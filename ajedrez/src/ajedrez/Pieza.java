@@ -35,7 +35,13 @@ public class Pieza {
 		this.tablero=tablero;
 		this.color=color;
 	}
-	/*public String toString(){//debug
+	public void coronar(){
+		if(tipo==Tipo.PEON){
+			valor=9;
+			tipo=Tipo.REINA;
+		}
+	}
+	public String toString(){//debug
 		String t=null;
 		switch(tipo){
 		case PEON: t="P";
@@ -55,7 +61,7 @@ public class Pieza {
 			t=t.toLowerCase();
 		}
 		return t;
-	}*/
+	}
 	public LinkedList<Movimiento> getMovimientos(){
 		LinkedList<Movimiento> l=movimientos;
 		movimientos=null;
@@ -115,10 +121,6 @@ public class Pieza {
 					}
 				}
 			}
-			if(ad!=null&&ad.fila==8){
-				tipo=Tipo.REINA;
-				valor=9;
-			}
 		}else{
 			Posicion is,ds,ad;
 			is=p.getInferiorIzquierda();
@@ -143,10 +145,6 @@ public class Pieza {
 						movimientos.add(new Movimiento(p, ad));
 					}
 				}
-			}
-			if(ad!=null&&ad.fila==1){
-				tipo=Tipo.REINA;
-				valor=9;
 			}
 		}
 	}

@@ -1,10 +1,6 @@
 package ajedrez;
 
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.LinkedList;
-import java.util.Random;
-import java.util.Scanner;
 
 import javax.swing.JFrame;
 
@@ -79,6 +75,22 @@ public class Tablero{
 			Posicion po=posiciones[m.origen.fila-1][col];
 			posiciones[m.destino.fila-1][col1].pieza=po.pieza;
 			po.pieza=null;
+		}
+	}
+	public void coronar(){
+		for(int i=0;i<8;i++){
+			Pieza pieza=posiciones[0][i].pieza;
+			if(pieza!=null){
+				if(pieza.getTipe()==Tipo.PEON&&pieza.color==Color.NEGRO){
+					pieza.coronar();
+				}
+			}
+			pieza=posiciones[7][i].pieza;
+			if(pieza!=null){
+				if(pieza.getTipe()==Tipo.PEON&&pieza.color==Color.BLANCO){
+					pieza.coronar();
+				}
+			}
 		}
 	}
 	public byte toColumna(char c){
