@@ -4,7 +4,8 @@ import java.util.LinkedList;
 
 public class Nodo {
 	public Tablero tablero;
-	public LinkedList<Nodo> hijos=new LinkedList<Nodo>();
+	//public LinkedList<Nodo> hijos=new LinkedList<Nodo>();
+	public Nodo hijos=null;
 	private Color color;
 	public static int posvis=0;
 	public Nodo(/*Tablero t,*/Color c){
@@ -18,17 +19,17 @@ public class Nodo {
 		return Color.BLANCO;
 	}
 	public void addHijo(Nodo n){
-		hijos.add(n);
+		hijos=n;
 	}
 	public String toString(){
 		return "\n"+tablero.toString()+"\n";
 	}
 	public Contenedor crearArbol(Nodo n,int alfa,int beta,Color c,byte prof){
+		//System.out.println(n.tablero.toString());
 		if(prof==0){
 			Contenedor x=new Contenedor();
 			x.tablero=n;
 			x.valor=n.tablero.getValor();
-			//System.out.println(++posvis);
 			return x;
 		}else{
 			Contenedor x=new Contenedor();
@@ -37,53 +38,48 @@ public class Nodo {
 			int y=l.size();
 			if(y==0){
 				x.valor=n.tablero.getValor();
-				//System.out.println(++posvis);
 				return x;
 			}
-			Nodo nodos[]=new Nodo[y];
+			Nodo nodos=null;
 			if(c==Color.BLANCO){
 				x.valor=alfa;
 				for(int i=0;i<y;i++){
-					nodos[i]=new Nodo(n.nextColor());
-					nodos[i].tablero=(Tablero)n.tablero.clone();
-					nodos[i].tablero.mover(l.removeFirst());
-					Contenedor z=crearArbol(nodos[i], alfa, beta, n.nextColor(), (byte)(prof-1));
-					n.addHijo(nodos[i]);
+					nodos=new Nodo(n.nextColor());
+					nodos.tablero=(Tablero)n.tablero.clone();
+					nodos.tablero.mover(l.removeFirst());
+					Contenedor z=crearArbol(nodos, alfa, beta, n.nextColor(), (byte)(prof-1));
+					n.addHijo(z.tablero);
 					if(z.valor>alfa){
-						z.tablero=nodos[i];
+						z.tablero=nodos;
 						x.tablero=z.tablero;
 						alfa=z.valor;
 					}
 					if(alfa>=beta){
-						//System.out.println("Podado");
+						//System.out.println("Podado Blanco");
 						return z;
 					}
 				}
 				x.valor=alfa;
-				//System.out.println("Alfa "+alfa);
-				//System.out.println("Beta "+beta);
 				return x;
 			}else{
 				x.valor=beta;
 				for(int i=0;i<y;i++){
-					nodos[i]=new Nodo(n.nextColor());
-					nodos[i].tablero=(Tablero)n.tablero.clone();
-					nodos[i].tablero.mover(l.removeFirst());
-					Contenedor z=crearArbol(nodos[i], alfa, beta, n.nextColor(), (byte)(prof-1));
-					n.addHijo(nodos[i]);
+					nodos=new Nodo(n.nextColor());
+					nodos.tablero=(Tablero)n.tablero.clone();
+					nodos.tablero.mover(l.removeFirst());
+					Contenedor z=crearArbol(nodos, alfa, beta, n.nextColor(), (byte)(prof-1));
+					n.addHijo(z.tablero);
 					if(z.valor<beta){
-						z.tablero=nodos[i];
+						z.tablero=nodos;
 						x.tablero=z.tablero;
 						beta=z.valor;
 					}
 					if(alfa>=beta){
-						//System.out.println("Podado");
+						//System.out.println("Podado Negro");
 						return z;
 					}
 				}
 				x.valor=beta;
-				//System.out.println("Alfa "+alfa);
-				//System.out.println("Beta "+beta);
 				return x;
 			}
 		}
